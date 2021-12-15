@@ -1,66 +1,32 @@
 
 import React from "react";
-import axios from "axios";
-import Movie from "./Movie"; // ./ 는 현재 디렉토리라는 뜻
-import './App.css'
+// import axios from "axios";
+// import Movie from "./Movie"; // ./ 는 현재 디렉토리라는 뜻
+import Home from "./routes/Home";
+import {HashRouter, Route} from 'react-router-dom';
+import About from "./routes/About";
+import Navigation from "./components/Navigation";
+import "./App.css"
+import Detail from './routes/Detail'
+import A from "./components/A";
+
 
 class App extends React.Component {
+    render(){
 
-  
-
-  state={
-    isLoading:true,
-    movies:[],
-  };
-
-  //화살표 함수로 상태(state)값에 접근 가능
-  //새로운 메서드 만들기
-  getMovies= async ()=>{
-    const movies = await axios.get('https://yts.mx/api/v2/list_movies.json');
-    console.log(movies.data.data.movies);
-    this.setState({
-      movies:movies.data.data.movies,
-      isLoading:false,
-    });
-  }
-
-
- componentDidMount() {
-   /* setTimeout(()=>{
-     this.setState({
-       isLoading:false,
-     });
-   },6000); */
-
-   // axios로 getmovies 메서드 호출
-   this.getMovies();
- }
-
-
-  render(){
-    
-    return (
-        <section className="container"> 
-          {this.state.isLoading ? 
-          <div className="loader">
-            <span className="loader__text">
-              'Loading...'
-            </span>
-          </div> 
-          : (
-            <div className="movies">
-              {this.state.movies.map((item,index)=>{
-            //console.log(item);
-            return < Movie key={index} 
-            genres={item.genres} year={item.year} summary={item.summary} 
-            title={item.title} poster={item.medium_cover_image}/>
-          })}
-            </div>
-          )
-            
-             }
-        </section>
-      );
+      return (
+        <HashRouter>
+          <Navigation />
+          <br/>
+          <br/>
+          <Route path="/" exact={true} component={Home} />
+          <Route path="/About" component={About}/>
+          <Route path="/movie-detail" component={Detail} />
+          <Route path="/a" component={A} />
+        </HashRouter>
+      )
+      
+      
     }
   }
   
